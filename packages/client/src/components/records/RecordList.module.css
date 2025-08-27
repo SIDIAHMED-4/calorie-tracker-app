@@ -1,0 +1,13 @@
+.record-list {
+  list-style: none;
+  padding: 0;
+  border: 1px solid var(--theme-color-light);
+  border-radius: var(--theme-border-radius-smooth);
+}
+.list-item {
+  border-bottom: 1px solid var(--theme-color-normal);
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
