@@ -62,9 +62,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 /* ===============================
-   ✅ إضافة جزء React build
+   ✅ Serve React build
 ================================= */
-const clientBuildPath = path.join(__dirname, "packages/client/dist");
+const clientBuildPath = path.join(__dirname, "../client/dist");
 app.use(express.static(clientBuildPath));
 
 // أي route غير معروف → يرجع index.html تبع React
@@ -73,8 +73,125 @@ app.get("*", (req, res) => {
 });
 /* ================================= */
 
+// ---- CRUD APIs ----
+
+// List records
+app.get("/records", (req, res) => {
+  console.log("Received 'List' request");
+  let sql;
+  if (req.query.date) {
+    sql = `SELECT * FROM calorie_records WHERE r_date = ?`;
+    db.all(sql, [req.query.date], (err, rows) => {
+      if (err) {
+        res.status(500).send(err.message);
+        return console.error(err.message);
+      }
+      res.json({ result: rows });
+    });
+  } else {
+    sql = "SELECT * FROM calorie_records";
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        res.status(500).send(err.message);
+        return console.error(err.message);
+      }
+      res.json({ result: rows });
+    });
+  }
+});
+
+// Get single record
+app.get("/records/:id", (req, res) => {
+  console.log("Received 'Detail' request");
+  const { id } = req.params;
+  let sql = "SELECT * FROM calorie_records WHERE id = ?";
+  db.get(sql, [id], (err, row) => {
+    if (err) {
+      res.status(500).send(err.message);
+      return console.error(err.message);
+    }
+    if (row) {
+      res.send(row);
+    } else {
+      res.status(404).send("Record not found");
+    }
+  });
+});
+
+// Create record
+app.post("/records", (req, res) => {
+  console.log("Received 'Create' request");
+  const { r_date, r_meal, r_food, r_cal } = req.body;
+  if (!r_date || !r_meal || !r_food || !r_cal) {
+    return res.status(400).send("Please provide all record fields.");
+  }
+  let sql =
+    "INSERT INTO calorie_records (r_date, r_meal, r_food, r_cal) VALUES (?, ?, ?, ?)";
+  db.run(sql, [r_date, r_meal, r_food, r_cal], function (err) {
+    if (err) {
+      res.status(500).send(err.message);
+      return console.error(err.message);
+    }
+    res.status(200).send({ message: "Record inserted.", id: this.lastID });
+  });
+});
+
+// Update record
+app.put("/records/:id", (req, res) => {
+  console.log("Received 'Update' request");
+  const { r_date, r_meal, r_food, r_cal } = req.body;
+  const { id } = req.params;
+  if (!r_date || !r_meal || !r_food || !r_cal) {
+    return res.status(400).send("Please provide all record fields.");
+  }
+  let sql = "SELECT * FROM calorie_records WHERE id = ?";
+  db.get(sql, [id], (err, row) => {
+    if (err) {
+      res.status(500).send(err.message);
+      return console.error(err.message);
+    }
+    if (row) {
+      sql = `UPDATE calorie_records SET r_date = ?, r_meal = ?, r_food = ?, r_cal = ? WHERE id = ?`;
+      db.run(sql, [r_date, r_meal, r_food, r_cal, id], function (err) {
+        if (err) {
+          res.status(500).send(err.message);
+          return console.error(err.message);
+        }
+        res.send({ message: "Record updated.", id: id });
+      });
+    } else {
+      res.status(404).send("Record not found");
+    }
+  });
+});
+
+// Delete record
+app.delete("/records/:id", (req, res) => {
+  console.log("Received 'Delete' request");
+  const { id } = req.params;
+  let sql = "SELECT * FROM calorie_records WHERE id = ?";
+  db.get(sql, [id], (err, row) => {
+    if (err) {
+      res.status(500).send(err.message);
+      return console.error(err.message);
+    }
+    if (row) {
+      sql = "DELETE FROM calorie_records WHERE id = ?";
+      db.run(sql, [id], (err) => {
+        if (err) {
+          res.status(500).send(err.message);
+          return console.error(err.message);
+        }
+        res.send({ message: "Record deleted.", id: id });
+      });
+    } else {
+      res.status(404).send("Record not found");
+    }
+  });
+});
+
+// Start server
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Server running on port ${process.env.PORT || 3000}`);
 });
 
-// ---- باقي API كما عندك (records CRUD) ----
