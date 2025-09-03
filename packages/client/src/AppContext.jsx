@@ -18,7 +18,6 @@ export function AppContextProvider(props) {
 	const updateCurrentDate = (val) => {
 		setCurrentDate(getDateFromString(val));
 	};
-	console.log("Curr", currentDate);
 
 	const currentDateStr = currentDate ?? "";
 
