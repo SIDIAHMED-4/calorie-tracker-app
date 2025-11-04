@@ -12,7 +12,7 @@ This project demonstrates **full CRUD operations** and how to integrate a React 
 
 ## 📸 Screenshots
 
-![App Screenshot](../public/Calorie-Tracker.png)
+![App Screenshot](./public/Calorie-Tracker.png)
 
 ## ⚙️ Tech Stack
 
