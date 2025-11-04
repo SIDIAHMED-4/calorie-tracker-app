@@ -18,7 +18,7 @@ This project demonstrates **full CRUD operations** and how to integrate a React 
 
 | Layer | Technologies |
 |-------|---------------|
-| **Frontend** | React, Vite, JavaScript (ES6+), Tailwind CSS |
+| **Frontend** | React, Vite, JavaScript (ES6+) |
 | **Backend** | Node.js, Express.js, SQLite (in-memory) |
 | **Deployment** | Vercel (client) |
 | **Version Control** | Git & GitHub |
