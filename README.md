@@ -1,40 +1,66 @@
-# Calorie Tracker Project
+# 🥗 Calorie Tracker Project
 
-This is a demo react application with a small server to perform fetch requests to perform CRUD operations on in-memory data.
+A modern **React + Vite** demo application with a small Node.js server that allows users to **track, add, edit, and delete daily calorie records**.  
+This project demonstrates **full CRUD operations** and how to integrate a React frontend with a lightweight backend API.
 
-## Setup
+---
 
-- install node
+## 🚀 Live Demo
+🔗 [View Live App](https://calorie-tracker-app12.vercel.app/)
 
-- install project dependencies
+---
 
-```
+## 📸 Screenshots
+
+![App Screenshot](./public/Calorie-Tracker.png)
+
+## ⚙️ Tech Stack
+
+| Layer | Technologies |
+|-------|---------------|
+| **Frontend** | React, Vite, JavaScript (ES6+), Tailwind CSS |
+| **Backend** | Node.js, Express.js, SQLite (in-memory) |
+| **Deployment** | Vercel (client) |
+| **Version Control** | Git & GitHub |
+
+---
+
+## ✨ Features
+
+- 📆 View calorie records for the past 60 days.  
+- ➕ Add new meals and calorie data.  
+- 📝 Edit or delete existing records.  
+- 🔄 Fetch requests to a small server using RESTful API.  
+- 📱 Fully responsive and simple UI built with React + Tailwind.  
+- ⚡ Fast loading with Vite.
+
+---
+
+## 🛠️ Setup & Run
+
+### 1️⃣ Install Node.js
+
+Make sure you have Node.js installed.
+
+### 2️⃣ Install project dependencies
+```bash
 npm install-all
-```
 
-- start client and server
 
-```
+### 3️⃣ Start client and server
 npm run start
-```
 
-- To close both client and server, hit Ctrl+c
+### 4️⃣ Stop the project
 
-## Front-end
+Press Ctrl + C to close both the client and server.
 
-React based project using vite setup.
+🧩 API Endpoints
+Method	Endpoint	Description
+GET	/records	List all calorie records
+GET	/records?date=YYYY-MM-DD	Get records for a specific date
+POST	/records	Add a new calorie record
+PUT	/records/:id	Update a specific record
+DELETE	/records/:id	Delete a record
 
-## Back-end
-
-Small server with in-memory SQLite database that starts with random data for the past 60 days (day in / day out).
-
-## API
-
-- List all: http://localhost:3000/records (GET)
-- List for specific date: http://localhost:3000/records?date=2000-2-28 (GET)
-- Get specific record: http://localhost:3000/records/:id (GET)
-- Create new record: http://localhost:3000/records (POST)
-- Update existing record: http://localhost:3000/records/:id (PUT)
-- Delete existing record: http://localhost:3000/records/:id (DELETE)
 
 More details can be found in _packages/server/README.md_
